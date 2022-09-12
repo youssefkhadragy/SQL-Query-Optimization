@@ -1,0 +1,5 @@
+# SQL-Query-Optimization
+**For a review of the optimization of SQL queries view Report(Part 1)Queries(1-9).pdf, Report(Part 2)Unopt.Queries(10-12).pdf and Report(Part 3)Opt.Queries(10-12).pdf. The newQueries.pdf file contains the optimized SQL queries.**\
+**<ins>Description</ins>** 
+This project demonstrates the effect of using various types of indices on 12 queries. The optimal combination of indices was chosen according to query analysis performed in PostgreSQL. Planning and Execution Time and Execution Cost were the factors used in comparing the effect of different indices on the queries. Finally, heuristic-based optimization was performed on all queries where possible.\
+**<ins>Note:</ins>**  MP2DataGenerator folder contains java files for the code used to insert dummy data to populate the tables. Each table had approximately 150,000 rows for the effect of indices on queries to be visible.
