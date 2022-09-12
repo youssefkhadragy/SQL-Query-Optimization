@@ -1,0 +1,79 @@
+1-select * from 
+((select * from section where year=2019 and semester=1) as s inner join takes t on t.section_id = s.section_id) as sem1
+full outer join
+(select * from student where department = 'CSEN') as CS1_student on CS1_student.id = sem1.student_id;
+
+2-select distinct pnumber
+from project
+where pnumber in
+(select pnumber
+from ((select Pnumber,Dnumber as p1 from project) as p inner join  department d on p.p1=d.Dnumber) as d inner join  (select * from employee e where e.lname='employee1') as e
+on e.dno=d.dnumber and  d.mgr_snn=e.ssn
+)
+or
+pnumber in
+(select pno
+from works_on w inner join (select * from employee e where e.lname='employee1') as e
+on w.essn=e.ssn );
+
+3-select lname,fname from employee where (salary > (select max(salary) as x from employee where dno=5))
+
+4-Select distinct fname,lname 
+from Employee e inner join Dependent d
+on e.sex=d.sex and e.fname=d.dependent_name
+
+5-select fname,lname from employee where ssn in (select essn from dependent)
+
+6-select dnumber, count(*)
+from department, employee
+where dnumber=dno
+and
+salary > 40000
+group by dnumber
+having count(*)>5
+
+7-select s.sname
+from sailors s
+where exists ( select r.sid
+               	from reserves r
+               	where s.sid = r.sid and r.bid = 103 );
+
+8-select s.sname
+from sailors s
+where exists ( select r.sid
+                	 from reserves r
+                	 where r.sid = s.sid and exists (select b.bid
+                                               		       from boat b
+                                               		 where r.bid = b.bid and b.color = 'red'));
+
+9-select s.sname
+from sailors s inner join reserves r on s.sid = r.sid inner join boat b on b.bid = r.bid
+where b.color = 'red' and exists ( select s2.sid
+from sailors s2 inner join reserves r2 on s2.sid = r2.sid 	 inner join boat b2 on b2.bid=r2.bid
+where s.sid = s2.sid and b2.color = 'green');
+
+
+10-select *
+from actor INNER JOIN movie_cast on actor.act_id=movie_cast.act_id INNER JOIN movie on movie.mov_id = movie_cast.mov_id
+where mov_title='Annie Hall'
+
+11-select dir_fname, dir_lname
+from director d
+where exists(
+select dir_id
+from movie_direction md
+where md.dir_id=d.dir_id and exists(
+select mov_id
+from movie_cast mc
+where mc.mov_id=md.mov_id and mc.role =any( select role
+from movie_cast mc2
+where exists(
+select mov_id
+from movie m3
+where
+mov_title='Eyes Wide Shut' and m3.mov_id=mc2.mov_id ))));
+
+
+12-select mov_title from   
+(select dir_id from director where dir_fname='Woddy' and dir_lname='Allen') as dir
+inner join movie_direction m1 on dir.dir_id=m1.dir_id inner join movie m2 on m2.mov_id=m1.mov_id ;
